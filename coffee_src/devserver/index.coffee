@@ -29,8 +29,11 @@ io.on 'connect', (socket)=>
   term = pty.spawn 'bash', [],
     name: 'xterm-256color'
     colos: 80
-    rows: 24
+    rows: 40
   term.on 'data', (d)=> socket.emit 'data', d
+  socket.on 'resize', (size) =>
+    console.log 'resized'
+    term.resize size.cols, size.rows
   socket.on 'data', (d) => term.write(d)
   socket.on 'disconnect', ()=> term.destroy()
 
