@@ -3,7 +3,7 @@ config = require './config'
 HtmlWebpackPlugin = require('html-webpack-plugin')
 CleanWebpackPlugin = require('clean-webpack-plugin')
 webpack = require('webpack')
-hotMiddlewareScript = 'webpack-hot-middleware/client?path=http://localhost:3000/__webpack_hmr&timeout=20000&reload=true'
+hotMiddlewareScript = "webpack-hot-middleware/client?path=http://localhost:#{config.port}/__webpack_hmr&timeout=20000&reload=true"
 
 module.exports =
     mode: 'development'
@@ -23,6 +23,6 @@ module.exports =
       new webpack.NoEmitOnErrorsPlugin()
     ]
     output:
-      filename: '[name].bundle.js'
+      filename: '[name].js'
       path: path.resolve(__dirname, 'dist')
       publicPath: '/'

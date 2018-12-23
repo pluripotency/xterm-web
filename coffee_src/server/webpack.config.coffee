@@ -14,6 +14,6 @@ module.exports =
         template: path.resolve __dirname, '../../index.html'
     ]
     output:
-      filename: '[name].bundle.js'
+      filename: '[name].js'
       path: path.resolve __dirname, '../../public/dist'
       publicPath: '/dist/'

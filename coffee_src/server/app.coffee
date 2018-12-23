@@ -1,11 +1,15 @@
 module.exports =
   init: (app)=>
     express = require 'express'
-    server = require('http').createServer app
+    path = require 'path'
+    fs = require 'fs'
+    options =
+      pfx: fs.readFileSync path.resolve __dirname, '../../server.pfx'
+      passphrase: '3xp0rt!'
+    server = require('https').createServer options, app
     IO = require 'socket.io'
     pty = require 'pty.js'
 
-    path = require 'path'
 
     app.use express.static path.resolve __dirname, '../../public'
     app.use '/xterm.js', express.static path.resolve __dirname, '../../node_modules/xterm'
@@ -15,7 +19,7 @@ module.exports =
     io.on 'connect', (socket)=>
       term = pty.spawn 'bash', [],
         name: 'xterm-256color'
-        colos: 80
+        cols: 80
         rows: 24
       term.on 'data', (d)=> socket.emit 'data', d
       socket.on 'resize', (size) =>
