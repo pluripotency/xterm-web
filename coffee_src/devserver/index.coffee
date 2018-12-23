@@ -1,10 +1,5 @@
 express = require 'express'
 app = express()
-server = require('http').createServer app
-IO = require 'socket.io'
-pty = require 'pty.js'
-
-path = require 'path'
 config = require './config'
 
 webpack = require('webpack')
@@ -17,24 +12,9 @@ compiler = webpack(webpackConfig)
 # configuration file as a base.
 app.use webpackDevMiddleware compiler,
    noInfo: false,
-#  noInfo: true,
   publicPath: webpackConfig.output.publicPath
 app.use webpackHotMiddleware compiler
 
-app.use express.static path.resolve __dirname, '../../public'
-app.use '/xterm.js', express.static path.resolve __dirname, '../../node_modules/xterm'
-
-io = new IO server
-io.on 'connect', (socket)=>
-  term = pty.spawn 'bash', [],
-    name: 'xterm-256color'
-    colos: 80
-    rows: 40
-  term.on 'data', (d)=> socket.emit 'data', d
-  socket.on 'resize', (size) =>
-    console.log 'resized'
-    term.resize size.cols, size.rows
-  socket.on 'data', (d) => term.write(d)
-  socket.on 'disconnect', ()=> term.destroy()
+server = require('../server/app').init(app)
 
 server.listen config.port, ()-> console.log "devserver listening on port #{config.port}"
