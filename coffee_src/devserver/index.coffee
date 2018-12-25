@@ -1,5 +1,6 @@
 express = require 'express'
 app = express()
+server = require('http').createServer app
 config = require './config'
 
 webpack = require('webpack')
@@ -15,6 +16,6 @@ app.use webpackDevMiddleware compiler,
   publicPath: webpackConfig.output.publicPath
 app.use webpackHotMiddleware compiler
 
-server = require('../server/app').init(app)
+server = require('../server/app').init(app, server)
 
 server.listen config.port, ()-> console.log "devserver listening on port #{config.port}"

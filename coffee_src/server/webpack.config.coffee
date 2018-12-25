@@ -10,7 +10,6 @@ module.exports =
     plugins: [
       new CleanWebpackPlugin(['dist'])
       new HtmlWebpackPlugin
-        title: config.html_title
         template: path.resolve __dirname, '../../index.html'
     ]
     output:
