@@ -3,7 +3,6 @@ import h from 'react-hyperscript'
 
 import {NavBar, NavList} from './parts/navbar'
 import vm from './ViewModel/index'
-vm.start_socket()
 
 import TermWindow from './parts/Terminal/index'
 
@@ -31,5 +30,5 @@ export default class App extends Component
           ]
         ]
       h TermWindow,
-        socket: vm.socket
+        vm: vm
     ]
